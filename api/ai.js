@@ -6,16 +6,20 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Authorization": "Bearer " + process.env.OPENAI_API_KEY,
+        "OpenAI-Project": process.env.OPENAI_PROJECT_ID,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        messages: [{ role: "user", content: message }]
+        messages: [
+          { role: "user", content: message }
+        ]
       })
     });
 
     const data = await completion.json();
     return res.status(200).json(data);
+
   } catch (error) {
     return res.status(500).json({
       error: "AI Bridge Error",
@@ -23,3 +27,4 @@ export default async function handler(req, res) {
     });
   }
 }
+
